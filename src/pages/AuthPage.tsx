@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useAuth } from "@/components/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 export const AuthPage = () => {
-  const [searchParams] = useSearchParams();
-  const initialMode =
-    searchParams.get("mode") === "signup" ? "signup" : "login";
+  const { initialmode } = useParams();
+  const initialMode = initialmode === "signup" ? "signup" : "login";
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,14 +58,18 @@ export const AuthPage = () => {
     try {
       if (mode === "login") {
         await login(email, password);
-        toast.success("Welcome back!");
+        toast.success("Welcome back! You're all set.");
       } else {
         await signup(name, email, password);
-        toast.success("Account created successfully!");
+        toast.success("Account created successfully! You're now signed in.");
       }
       navigate("/dashboard");
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

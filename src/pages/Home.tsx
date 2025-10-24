@@ -1,6 +1,7 @@
 import BgCircle from "@/components/circle";
 import { Button } from "@/components/ui/button";
 import { LandingPageBoxes } from "@/constants";
+import { Link } from "react-router";
 
 const Home = () => {
   return (
@@ -27,7 +28,7 @@ const Home = () => {
               Get started
             </Button>
             <Button className="cursor-pointer" variant="outline">
-              Login
+              <Link to={"/auth/signup"}>SignUp</Link>
             </Button>
           </div>
           <BgCircle blur={true} right={"0%"} />

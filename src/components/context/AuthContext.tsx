@@ -1,9 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
   id: string;
   email: string;
   name: string;
+  password?: string;
+  sessionActive?: boolean;
 }
 
 interface AuthContextType {
@@ -16,30 +18,62 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(
+    JSON.parse(localStorage.getItem("ticketapp_user") || "null")
+  );
+  const [users, setUsers] = useState<User[]>(
+    JSON.parse(localStorage.getItem("ticketapp_session") || "[]")
+  );
+  useEffect(() => {
+    localStorage.setItem("ticketapp_session", JSON.stringify(users));
+  }, [users]);
 
   const login = async (email: string, password: string) => {
-    // Mock login - in real app, this would call an API
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setUser({
-      id: "1",
-      email,
-      name: email.split("@")[0],
-    });
+    const existingUser = users.find((record) => record.email === email);
+
+    if (!existingUser) {
+      throw new Error("No account found for that email address.");
+    }
+
+    if (existingUser.password !== password) {
+      throw new Error("Incorrect password. Please try again.");
+    }
+
+    const activeUser = { ...existingUser, sessionActive: true };
+    localStorage.setItem("ticketapp_user", JSON.stringify(activeUser));
+    setUser(activeUser);
+    setUsers((prev) =>
+      prev.map((u) =>
+        u.id === existingUser.id ? { ...u, sessionActive: true } : u
+      )
+    );
   };
 
   const signup = async (name: string, email: string, password: string) => {
-    // Mock signup
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setUser({
-      id: "1",
-      email,
+    const isEmailTaken = users.find((record) => record.email === email);
+    if (isEmailTaken) {
+      throw new Error("An account with that email already exists.");
+    }
+    const user = {
+      id: Date.now().toString(),
       name,
-    });
+      email,
+      password,
+      sessionActive: true,
+    };
+    localStorage.setItem("ticketapp_user", JSON.stringify(user));
+    setUsers((prev) => [...prev, user]);
+    setUser(user);
   };
 
   const logout = () => {
+    setUsers((prev) =>
+      prev.map((u) => (u.id === user?.id ? { ...u, sessionActive: false } : u))
+    );
     setUser(null);
+    localStorage.removeItem("ticketapp_user");
   };
 
   return (
