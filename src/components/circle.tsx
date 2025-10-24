@@ -14,7 +14,7 @@ interface BgCircleProps {
 
 const BgCircle: React.FC<BgCircleProps> = ({
   size = 200,
-  color = "rgba(37,99,235,0.15)", // soft blue by default
+  color = "rgba(37,99,235,0.4)", // soft blue by default
   top,
   left,
   right,
@@ -24,7 +24,7 @@ const BgCircle: React.FC<BgCircleProps> = ({
 }) => {
   return (
     <div
-      className="absolute rounded-full pointer-events-none -z-20"
+      className="absolute rounded-full pointer-events-none -z-50 "
       style={{
         width: size,
         height: size,

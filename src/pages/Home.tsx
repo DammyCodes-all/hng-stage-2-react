@@ -1,9 +1,16 @@
 import BgCircle from "@/components/circle";
+import { useAuth } from "@/components/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LandingPageBoxes } from "@/constants";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 const Home = () => {
+  const { user } = useAuth();
+  const handleGetStarted = () => {
+    if (user && user.sessionActive) return;
+    toast.info("Please sign up or log in to get started!");
+  };
   return (
     <div className="relative  w-full overflow-hidden">
       <section className="relative flex flex-col z-10 p-6 w-full h-full justify-center items-center min-h-[60dvh]">
@@ -24,11 +31,12 @@ const Home = () => {
             <Button
               className="cursor-pointer bg-blue-500 text-white hover:bg-blue-600 rounded-md text-sm font-medium transition-colors"
               variant="secondary"
-            ><Link to={'/dashboard'}>Get started</Link>
-              
+              onClick={handleGetStarted}
+            >
+              <Link to={"/dashboard"}>Get started</Link>
             </Button>
             <Button className="cursor-pointer" variant="outline">
-              <Link to={"/auth/signup"}>SignUp</Link>
+              <Link to={"/auth/login"}>Login</Link>
             </Button>
           </div>
           <BgCircle blur={true} right={"0%"} />
