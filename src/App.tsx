@@ -2,7 +2,7 @@ import "./index.css";
 import { NavBar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
-import { Routes, Route, Navigate, useSearchParams } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { AuthPage } from "./pages/AuthPage";
 import { AuthProvider } from "./components/context/AuthContext";
 import { useAuth } from "./components/context/AuthContext";

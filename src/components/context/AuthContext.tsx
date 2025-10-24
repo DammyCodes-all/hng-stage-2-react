@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 
 interface User {
   id: string;
@@ -25,7 +24,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<User[]>(
     JSON.parse(localStorage.getItem("ticketapp_session") || "[]")
   );
-  const navigate = useNavigate();
   useEffect(() => {
     localStorage.setItem("ticketapp_session", JSON.stringify(users));
   }, [users]);
