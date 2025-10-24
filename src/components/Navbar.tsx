@@ -43,14 +43,14 @@ const NavBar = () => {
           <h1 className="text-sm text-gray-600 md:text-base">
             Hi, {user.name}
           </h1>
-          <Button
-            variant="outline"
-            className="w-full md:ml-4 md:w-auto"
-            onClick={logout}
+          <Link
+            to={"/"}
+            className="w-full md:ml-4 md:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-slate-100 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            onClick={() => setTimeout(logout, 300)}
           >
-            <LogOutIcon />
+            <LogOutIcon className="h-4 w-4" />
             Logout
-          </Button>
+          </Link>
         </section>
       )}
     </nav>

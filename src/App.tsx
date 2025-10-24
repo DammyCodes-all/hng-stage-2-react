@@ -2,24 +2,19 @@ import "./index.css";
 import { NavBar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route, Navigate, useSearchParams } from "react-router";
 import { AuthPage } from "./pages/AuthPage";
 import { AuthProvider } from "./components/context/AuthContext";
 import { useAuth } from "./components/context/AuthContext";
 import { TicketProvider } from "./components/context/TicketContext";
 import Dashboard from "./pages/Dashboard";
-import { toast, Toaster } from "sonner";
-import { useEffect } from "react";
+import { Toaster } from "sonner";
 import Tickets from "./pages/Tickets";
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user || user.sessionActive === false) {
-      toast.error("Please login to view this page");
-      navigate("/auth/login");
-    }
-  }, [user, navigate]);
+  if (!user || user.sessionActive === false) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return <>{children}</>;
 };
