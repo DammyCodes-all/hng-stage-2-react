@@ -5,14 +5,7 @@ import type { Ticket, TicketStatus } from "@/components/context/TicketContext";
 import { TicketCard } from "@/components/TicketCard";
 import { TicketDialog } from "@/components/TicketDialog";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus, Filter } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -31,7 +24,6 @@ const TicketsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"create" | "edit">("create");
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [ticketToDelete, setTicketToDelete] = useState<string | null>(null);
 
@@ -39,11 +31,6 @@ const TicketsPage = () => {
     if (searchParams.get("create") === "true") {
       setDialogMode("create");
       setDialogOpen(true);
-      setSearchParams({});
-    }
-    const filter = searchParams.get("filter");
-    if (filter) {
-      setFilterStatus(filter);
       setSearchParams({});
     }
   }, [searchParams, setSearchParams]);
@@ -88,11 +75,6 @@ const TicketsPage = () => {
     }
   };
 
-  const filteredTickets =
-    filterStatus === "all"
-      ? tickets
-      : tickets.filter((t) => t.status === filterStatus);
-
   return (
     <div className="min-h-screen flex flex-col bg-[#f9fafb]">
       <main className="flex-1 relative overflow-hidden">
@@ -113,33 +95,11 @@ const TicketsPage = () => {
             </Button>
           </div>
 
-          {/* Filter Section */}
-          <div className="flex items-center gap-4 mb-8">
-            <Filter className="w-5 h-5 text-gray-600" />
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Tickets</SelectItem>
-                <SelectItem value="open">Open</SelectItem>
-                <SelectItem value="in_progress">In Progress</SelectItem>
-                <SelectItem value="closed">Closed</SelectItem>
-              </SelectContent>
-            </Select>
-            <span className="text-gray-600">
-              {filteredTickets.length}{" "}
-              {filteredTickets.length === 1 ? "ticket" : "tickets"}
-            </span>
-          </div>
-
           {/* Tickets Grid */}
-          {filteredTickets.length === 0 ? (
+          {tickets.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-600 mb-4">
-                {filterStatus === "all"
-                  ? "No tickets yet. Create your first ticket to get started!"
-                  : `No ${filterStatus.replace("_", " ")} tickets found.`}
+                No tickets yet. Create your first ticket to get started!
               </p>
               <Button
                 onClick={handleCreateTicket}
@@ -151,7 +111,7 @@ const TicketsPage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTickets.map((ticket) => (
+              {tickets.map((ticket) => (
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}
