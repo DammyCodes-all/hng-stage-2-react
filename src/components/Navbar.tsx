@@ -76,14 +76,15 @@ const NavBar = () => {
             <p className="text-sm text-gray-600 w-full min-w-30 flex flex-row gap-1 items-center justify-center">
               Hi, {user?.name}
             </p>
-            <button
+            <Link
+              to={"/"}
               type="button"
               onClick={handleLogout}
               className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-slate-100 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               <LogOutIcon className="h-4 w-4" />
               Logout
-            </button>
+            </Link>
           </section>
         )}
       </div>
@@ -102,7 +103,10 @@ const NavBar = () => {
               </Link>
               <Link
                 to="/dashboard/tickets"
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleLogout();
+                }}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 <Ticket className="h-4 w-4" />
@@ -110,14 +114,15 @@ const NavBar = () => {
               </Link>
               <div className="flex flex-col items-center gap-2">
                 <p className="text-sm text-gray-600">Hi, {user?.name}</p>
-                <button
+                <Link
+                  to={"/"}
                   type="button"
                   onClick={handleLogout}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-slate-200 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-slate-100 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   <LogOutIcon className="h-4 w-4" />
                   Logout
-                </button>
+                </Link>
               </div>
             </div>
           )}
