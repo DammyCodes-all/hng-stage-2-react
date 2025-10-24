@@ -8,7 +8,7 @@ const NavBar = () => {
     <nav className="w-full bg-white shadow-md px-5 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <section className="flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
         <Link to="/" className="text-blue-600 text-2xl font-semibold">
-          TicketFlow
+          Ticcket
         </Link>
         <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center md:gap-3">
           {user && user.sessionActive && (
