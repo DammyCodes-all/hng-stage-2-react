@@ -6,9 +6,11 @@ import { Routes, Route, useNavigate } from "react-router";
 import { AuthPage } from "./pages/AuthPage";
 import { AuthProvider } from "./components/context/AuthContext";
 import { useAuth } from "./components/context/AuthContext";
+import { TicketProvider } from "./components/context/TicketContext";
 import Dashboard from "./pages/Dashboard";
 import { toast, Toaster } from "sonner";
 import { useEffect } from "react";
+import Tickets from "./pages/Tickets";
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -27,20 +29,30 @@ function App() {
       <main className="min-h-dvh max-w-[1440px] mx-auto">
         <Toaster position="top-right" richColors />
         <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/auth/:initialmode" element={<AuthPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-        <Footer />
+        <TicketProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/auth/:initialmode" element={<AuthPage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/tickets"
+              element={
+                <ProtectedRoute>
+                  <Tickets />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+          <Footer />
+        </TicketProvider>
       </main>
     </AuthProvider>
   );
