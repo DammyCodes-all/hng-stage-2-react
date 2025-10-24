@@ -22,7 +22,8 @@ function App() {
   return (
     <AuthProvider>
       <main className="min-h-dvh max-w-[1440px] mx-auto">
-        <Toaster position="top-right" richColors />
+        <Toaster position="bottom-right" richColors close-button
+      close-button-position="top-right"/>
         <NavBar />
         <TicketProvider>
           <Routes>

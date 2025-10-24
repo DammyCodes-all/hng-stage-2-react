@@ -24,8 +24,8 @@ const Home = () => {
             <Button
               className="cursor-pointer bg-blue-500 text-white hover:bg-blue-600 rounded-md text-sm font-medium transition-colors"
               variant="secondary"
-            >
-              Get started
+            ><Link to={'/dashboard'}>Get started</Link>
+              
             </Button>
             <Button className="cursor-pointer" variant="outline">
               <Link to={"/auth/signup"}>SignUp</Link>
