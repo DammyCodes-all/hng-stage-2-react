@@ -64,7 +64,7 @@ const Home = () => {
             your team productive.
           </span>
         </h2>
-        <div className="flex gap-4 flex-col md:flex-row justify-center items-stretch mt-10">
+        <div className="flex gap-4 flex-col md:flex-row justify-center items-center md:items-stretch mt-10">
           {LandingPageBoxes.map((box) => (
             <div
               key={box.title}
