@@ -104,8 +104,7 @@ const NavBar = () => {
               <Link
                 to="/dashboard/tickets"
                 onClick={() => {
-                  setMenuOpen(false);
-                  handleLogout();
+                  setMenuOpen(false)
                 }}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
